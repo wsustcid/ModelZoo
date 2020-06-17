@@ -1,5 +1,5 @@
 import tensorflow as tf
-from tflearn.layers.conv import global_avg_pool
+#from tflearn.layers.conv import global_avg_pool
 from tensorflow.examples.tutorials.mnist import input_data
 from tensorflow.contrib.layers import batch_norm, flatten
 from tensorflow.contrib.framework import arg_scope
@@ -32,15 +32,15 @@ def conv_layer(input, filter, kernel, stride=1, layer_name="conv"):
 
 def Global_Average_Pooling(x, stride=1):
     """
+    It is global average pooling without tflearn
+    return global_avg_pool(x, name='Global_avg_pooling')
+    # But maybe you need to install h5py and curses or not
+    """
+
     width = np.shape(x)[1]
     height = np.shape(x)[2]
     pool_size = [width, height]
     return tf.layers.average_pooling2d(inputs=x, pool_size=pool_size, strides=stride) # The stride value does not matter
-    It is global average pooling without tflearn
-    """
-
-    return global_avg_pool(x, name='Global_avg_pooling')
-    # But maybe you need to install h5py and curses or not
 
 
 def Batch_Normalization(x, training, scope):
@@ -109,7 +109,8 @@ class DenseNet():
             
             # https://github.com/taki0112/Densenet-Tensorflow/issues/10
             
-            in_channel = x.shape[-1]
+            #in_channel = x.shape[-1] # unsupported operand type(s) for *: 'Dimension' and 'float'
+            in_channel = x.get_shape().as_list()[-1]
             x = conv_layer(x, filter=in_channel*0.5, kernel=[1,1], layer_name=scope+'_conv1')
             x = Drop_out(x, rate=dropout_rate, training=self.training)
             x = Average_pooling(x, pool_size=[2,2], stride=2)

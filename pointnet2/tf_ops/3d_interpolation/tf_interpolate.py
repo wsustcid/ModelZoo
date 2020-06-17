@@ -1,3 +1,11 @@
+'''
+@Author: Shuai Wang
+@Github: https://github.com/wsustcid
+@Version: 1.0.0
+@Date: 1970-01-01 08:00:00
+@LastEditTime: 2020-06-16 22:22:43
+@Description:  
+'''
 import tensorflow as tf
 from tensorflow.python.framework import ops
 import sys
@@ -51,8 +59,8 @@ if __name__=='__main__':
         now = time.time() 
         for _ in range(100):
             ret = sess.run(interpolated_points)
-        print time.time() - now
-        print ret.shape, ret.dtype
+        print(time.time() - now)
+        print(ret.shape, ret.dtype)
         #print ret
     
     

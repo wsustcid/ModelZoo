@@ -1,0 +1,3 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+modelnet40_ply_hdf5_2048/

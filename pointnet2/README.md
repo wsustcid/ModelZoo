@@ -1,7 +1,15 @@
+<!--
+ * @Author: Shuai Wang
+ * @Github: https://github.com/wsustcid
+ * @Version: 1.0.0
+ * @Date: 1970-01-01 08:00:00
+ * @LastEditTime: 2020-06-16 22:18:55
+ * @Description:  https://github.com/charlesq34/pointnet2
+--> 
 ### PointNet++: *Deep Hierarchical Feature Learning on Point Sets in a Metric Space*
 Created by <a href="http://charlesrqi.com" target="_blank">Charles R. Qi</a>, <a href="http://stanford.edu/~ericyi">Li (Eric) Yi</a>, <a href="http://ai.stanford.edu/~haosu/" target="_blank">Hao Su</a>, <a href="http://geometry.stanford.edu/member/guibas/" target="_blank">Leonidas J. Guibas</a> from Stanford University.
 
-![prediction example](https://github.com/charlesq34/pointnet2/blob/master/doc/teaser.jpg)
+![prediction example](./doc/teaser.jpg)
 
 ### Citation
 If you find our work useful in your research, please consider citing:
@@ -16,7 +24,10 @@ If you find our work useful in your research, please consider citing:
 ### Introduction
 This work is based on our NIPS'17 paper. You can find arXiv version of the paper <a href="https://arxiv.org/pdf/1706.02413.pdf">here</a> or check <a href="http://stanford.edu/~rqi/pointnet2">project webpage</a> for a quick overview. PointNet++ is a follow-up project that builds on and extends <a href="https://github.com/charlesq34/pointnet">PointNet</a>. It is version 2.0 of the PointNet architecture.
 
-PointNet (the v1 model) either transforms features of *individual points* independently or process global features of the *entire point set*. However, in many cases there are well defined distance metrics such as Euclidean distance for 3D point clouds collected by 3D sensors or geodesic distance for manifolds like isometric shape surfaces. In PointNet++ we want to respect *spatial localities* of those point sets. PointNet++ learns hierarchical features with increasing scales of contexts, just like that in convolutional neural networks. Besides, we also observe one challenge that is not present in convnets (with images) -- non-uniform densities in natural point clouds. To deal with those non-uniform densities, we further propose special layers that are able to intelligently aggregate information from different scales.
+PointNet (the v1 model) either transforms features of *individual points* independently or process global features of the *entire point set*. However, in many cases there are well defined distance metrics such as Euclidean distance for 3D point clouds collected by 3D sensors or geodesic distance for manifolds like isometric shape surfaces. 
+  - In PointNet++ we want to respect *spatial localities* of those point sets. **PointNet++ learns hierarchical features with increasing scales of contexts, just like that in convolutional neural networks.** 
+  - Besides, we also observe one challenge that is not present in convnets (with images) -- non-uniform densities in natural point clouds. 
+  - To deal with those non-uniform densities, we further propose special layers that are able to intelligently aggregate information from different scales.
 
 In this repository we release code and data for our PointNet++ classification and segmentation networks as well as a few utility scripts for training, testing and data processing and visualization.
 
@@ -25,17 +36,19 @@ In this repository we release code and data for our PointNet++ classification an
 Install <a href="https://www.tensorflow.org/install/">TensorFlow</a>. The code is tested under TF1.2 GPU version and Python 2.7 (version 3 should also work) on Ubuntu 14.04. There are also some dependencies for a few Python libraries for data processing and visualizations like `cv2`, `h5py` etc. It's highly recommended that you have access to GPUs.
 
 #### Compile Customized TF Operators
-The TF operators are included under `tf_ops`, you need to compile them (check `tf_xxx_compile.sh` under each ops subfolder) first. Update `nvcc` and `python` path if necessary. The code is tested under TF1.2.0. If you are using earlier version it's possible that you need to remove the `-D_GLIBCXX_USE_CXX11_ABI=0` flag in g++ command in order to compile correctly.
+The TF operators are included under `tf_ops`, you need to compile them (check `tf_xxx_compile.sh` under each ops subfolder) first. 
 
-To compile the operators in TF version >=1.4, you need to modify the compile scripts slightly.
+1. Update `nvcc` and `python` path if necessary. (The code is tested under TF1.2.0. If you are using earlier version it's possible that you need to remove the `-D_GLIBCXX_USE_CXX11_ABI=0` flag in g++ command in order to compile correctly.)
 
-First, find Tensorflow include and library paths.
+2. To compile the operators in TF version >=1.4, you need to modify the compile scripts slightly.
+  - First, find Tensorflow include and library paths.
 
         TF_INC=$(python -c 'import tensorflow as tf; print(tf.sysconfig.get_include())')
         TF_LIB=$(python -c 'import tensorflow as tf; print(tf.sysconfig.get_lib())')
         
-Then, add flags of `-I$TF_INC/external/nsync/public -L$TF_LIB -ltensorflow_framework` to the `g++` commands.
+  - Then, add flags of `-I$TF_INC/external/nsync/public -L$TF_LIB -ltensorflow_framework` to the `g++` commands.
 
+ref: https://blog.csdn.net/qq_40196164/article/details/84638410
 ### Usage
 
 #### Shape Classification

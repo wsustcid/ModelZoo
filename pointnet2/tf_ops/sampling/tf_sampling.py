@@ -1,3 +1,11 @@
+'''
+@Author: Shuai Wang
+@Github: https://github.com/wsustcid
+@Version: 1.0.0
+@Date: 1970-01-01 08:00:00
+@LastEditTime: 2020-06-16 22:21:11
+@Description:  
+'''
 ''' Furthest point sampling
 Original author: Haoqiang Fan
 Modified by Charles R. Qi
@@ -79,11 +87,11 @@ if __name__=='__main__':
         us=(uplusv+uminusv)*0.5
         vs=(uplusv-uminusv)*0.5
         pt_sample=tria_sample+(trib_sample-tria_sample)*tf.expand_dims(us,-1)+(tric_sample-tria_sample)*tf.expand_dims(vs,-1)
-        print 'pt_sample: ', pt_sample
+        print('pt_sample: ', pt_sample)
         reduced_sample=gather_point(pt_sample,farthest_point_sample(1024,pt_sample))
-        print reduced_sample
+        print(reduced_sample)
     with tf.Session('') as sess:
         ret=sess.run(reduced_sample)
-    print ret.shape,ret.dtype
+    print(ret.shape,ret.dtype)
     import cPickle as pickle
     pickle.dump(ret,open('1.pkl','wb'),-1)
