@@ -1,3 +1,11 @@
+'''
+@Author: Shuai Wang
+@Github: https://github.com/wsustcid
+@Version: 1.0.0
+@Date: 1970-01-01 08:00:00
+@LastEditTime: 2020-07-17 20:17:59
+@Description:  
+'''
 #! /usr/bin/env python
 # coding=utf-8
 #================================================================
@@ -23,7 +31,7 @@ cfg                             = __C
 __C.YOLO                        = edict()
 
 # Set the class name
-__C.YOLO.CLASSES                = "./data/classes/coco.names"
+__C.YOLO.CLASSES                = "./data/classes/vkitti.names"
 __C.YOLO.ANCHORS                = "./data/anchors/basline_anchors.txt"
 __C.YOLO.MOVING_AVE_DECAY       = 0.9995
 __C.YOLO.STRIDES                = [8, 16, 32]
@@ -36,8 +44,8 @@ __C.YOLO.DEMO_WEIGHT            = "./checkpoint/yolov3_coco_demo.ckpt"
 # Train options
 __C.TRAIN                       = edict()
 
-__C.TRAIN.ANNOT_PATH            = "./data/dataset/voc_train.txt"
-__C.TRAIN.BATCH_SIZE            = 6
+__C.TRAIN.ANNOT_PATH            = "./data/dataset/vkitti_train.txt"
+__C.TRAIN.BATCH_SIZE            = 3
 __C.TRAIN.INPUT_SIZE            = [320, 352, 384, 416, 448, 480, 512, 544, 576, 608]
 __C.TRAIN.DATA_AUG              = True
 __C.TRAIN.LEARN_RATE_INIT       = 1e-4
@@ -52,14 +60,14 @@ __C.TRAIN.INITIAL_WEIGHT        = "./checkpoint/yolov3_coco_demo.ckpt"
 # TEST options
 __C.TEST                        = edict()
 
-__C.TEST.ANNOT_PATH             = "./data/dataset/voc_test.txt"
+__C.TEST.ANNOT_PATH             = "./data/dataset/vkitti_test.txt"
 __C.TEST.BATCH_SIZE             = 2
 __C.TEST.INPUT_SIZE             = 544
 __C.TEST.DATA_AUG               = False
 __C.TEST.WRITE_IMAGE            = True
 __C.TEST.WRITE_IMAGE_PATH       = "./data/detection/"
 __C.TEST.WRITE_IMAGE_SHOW_LABEL = True
-__C.TEST.WEIGHT_FILE            = "./checkpoint/yolov3_test_loss=9.2099.ckpt-5"
+__C.TEST.WEIGHT_FILE            = "./checkpoint/yolov3_test_loss=42.8347.ckpt-41"
 __C.TEST.SHOW_LABEL             = True
 __C.TEST.SCORE_THRESHOLD        = 0.3
 __C.TEST.IOU_THRESHOLD          = 0.45

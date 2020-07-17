@@ -118,6 +118,96 @@ the mAP on the VOC2012 dataset:
 </p>
 
 
+
+### 2.3 Train on VKITTI 2 dataset
+[Virtual KITTI 2](https://europe.naverlabs.com/research/computer-vision/proxy-virtual-worlds-vkitti-2/) is a more photo-realistic and better-featured version of the original [virtual KITTI dataset](https://europe.naverlabs.com/research/computer-vision/proxy-virtual-worlds-vkitti-1/). 
+
+1. Download rgb data and corresponding ground truth
+```bashrc
+$ wget http://download.europe.naverlabs.com//virtual_kitti_2.0.3/vkitti_2.0.3_rgb.tar
+$ wget http://download.europe.naverlabs.com//virtual_kitti_2.0.3/vkitti_2.0.3_textgt.tar.gz
+```
+Extract all of these tars into one directory, which should have the following basic structure.
+
+```bashrc
+VKITTI/
+├── vkitti_2.0.3_rgb
+│   ├── Scene01
+│   │   ├── clone
+│   │   │   └── frames
+│   │   │       └── rgb
+│   │   │           ├── Camera_0
+│   │   │           └── Camera_1
+│   ├── Scene02
+│   ├── Scene06
+│   ├── Scene18
+│   └── Scene20  (as test)
+├── vkitti_2.0.3_textgt
+│   ├── Scene01
+│   │   ├── clone
+│   │   │   ├── bbox.txt
+│   │   │   ├── colors.txt
+│   │   │   ├── extrinsic.txt
+│   │   │   ├── info.txt
+│   │   │   ├── intrinsic.txt
+│   │   │   └── pose.txt
+```
+
+2. Create train and test annotations
+```bashrc
+python scripts/vkitti_annotation.py --data_root=your_dataset_path
+```
+
+3. Then edit your `./core/config.py` to make some necessary configurations
+
+```bashrc
+__C.YOLO.CLASSES                = "./data/classes/vkitti.names"
+__C.TRAIN.ANNOT_PATH            = "./data/dataset/vkitti_train.txt"
+__C.TEST.ANNOT_PATH             = "./data/dataset/vkitti_test.txt"
+```
+Here are two kinds of training method: 
+
+##### (1) train from scratch:
+
+```bashrc
+$ python train.py
+$ tensorboard --logdir ./data
+```
+##### (2) train from COCO weights(recommend):
+
+```bashrc
+$ cd checkpoint
+$ wget https://github.com/YunYang1994/tensorflow-yolov3/releases/download/v1.0/yolov3_coco.tar.gz
+$ tar -xvf yolov3_coco.tar.gz
+$ cd ..
+$ python convert_weight.py --train_from_coco
+$ python train.py
+# TODO:
+# 为何demo的时候 不用指定参数，训练指定，貌似二者生成的文件都是一样的？但不加参数就找不到xx.ckpt?
+# BUG:
+File "/media/ubuntu16/F/ModelZoo/yolov3/core/dataset.py", line 244, in preprocess_true_boxes
+    label[best_detect][yind, xind, best_anchor, :] = 0
+IndexError: index 64 is out of bounds for axis 1 with size 64
+
+fix it by xind-1, yind-1
+```
+### 2.4 Evaluate on VKITTI dataset
+
+```bashrc
+# __C.TEST.WEIGHT_FILE            = "./checkpoint/yolov3_test_loss=42.8347.ckpt-41"
+$ python evaluate.py
+$ cd mAP
+$ python main.py -na
+```
+
+the mAP on the VOC2012 dataset:
+
+<p align="center">
+    <img width="50%" src="https://user-images.githubusercontent.com/33013904/58227054-dd4fc800-7d5b-11e9-85aa-67854292fbe0.png" style="max-width:50%;">
+    </a>
+</p>
+
+
 ## part 3. Stargazers over time
 
 [![Stargazers over time](https://starcharts.herokuapp.com/YunYang1994/tensorflow-yolov3.svg)](https://starcharts.herokuapp.com/YunYang1994/tensorflow-yolov3)

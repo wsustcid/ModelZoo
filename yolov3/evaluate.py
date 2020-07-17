@@ -159,7 +159,8 @@ class YoloTest(object):
                 print('\t' + str(bbox_mess).strip())
 
 
-if __name__ == '__main__': YoloTest().evaluate()
+if __name__ == '__main__': 
+    YoloTest().evaluate()
 
 
 

@@ -1,3 +1,11 @@
+'''
+@Author: Shuai Wang
+@Github: https://github.com/wsustcid
+@Version: 1.0.0
+@Date: 1970-01-01 08:00:00
+@LastEditTime: 2020-07-16 23:24:18
+@Description:  
+'''
 #! /usr/bin/env python
 # coding=utf-8
 #================================================================
@@ -21,7 +29,7 @@ from PIL import Image
 
 return_elements = ["input/input_data:0", "pred_sbbox/concat_2:0", "pred_mbbox/concat_2:0", "pred_lbbox/concat_2:0"]
 pb_file         = "./yolov3_coco.pb"
-video_path      = "./docs/images/road.mp4"
+video_path      = "./docs/images/test.avi"
 # video_path      = 0
 num_classes     = 80
 input_size      = 416
